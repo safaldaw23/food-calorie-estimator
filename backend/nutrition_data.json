@@ -1,0 +1,158 @@
+{
+    "pizza": {
+        "calories": 285,
+        "protein": 12,
+        "carbs": 36,
+        "fat": 10
+    },
+    "cheeseburger": {
+        "calories": 535,
+        "protein": 30,
+        "carbs": 40,
+        "fat": 29
+    },
+    "hamburger": {
+        "calories": 250,
+        "protein": 13,
+        "carbs": 30,
+        "fat": 10
+    },
+    "hotdog": {
+        "calories": 315,
+        "protein": 11,
+        "carbs": 31,
+        "fat": 16
+    },
+    "french loaf": {
+        "calories": 274,
+        "protein": 9,
+        "carbs": 51,
+        "fat": 3
+    },
+    "bagel": {
+        "calories": 245,
+        "protein": 10,
+        "carbs": 48,
+        "fat": 1.5
+    },
+    "pretzel": {
+        "calories": 380,
+        "protein": 10,
+        "carbs": 80,
+        "fat": 3
+    },
+    "ice cream": {
+        "calories": 207,
+        "protein": 3.5,
+        "carbs": 24,
+        "fat": 11
+    },
+    "ice lolly": {
+        "calories": 70,
+        "protein": 0,
+        "carbs": 17,
+        "fat": 0
+    },
+    "mashed potato": {
+        "calories": 88,
+        "protein": 2,
+        "carbs": 20,
+        "fat": 0.1
+    },
+    "broccoli": {
+        "calories": 34,
+        "protein": 2.8,
+        "carbs": 7,
+        "fat": 0.4
+    },
+    "cauliflower": {
+        "calories": 25,
+        "protein": 2,
+        "carbs": 5,
+        "fat": 0.3
+    },
+    "mushroom": {
+        "calories": 22,
+        "protein": 3.1,
+        "carbs": 3.3,
+        "fat": 0.3
+    },
+    "strawberry": {
+        "calories": 33,
+        "protein": 0.7,
+        "carbs": 8,
+        "fat": 0.3
+    },
+    "orange": {
+        "calories": 47,
+        "protein": 0.9,
+        "carbs": 12,
+        "fat": 0.1
+    },
+    "lemon": {
+        "calories": 29,
+        "protein": 1.1,
+        "carbs": 9,
+        "fat": 0.3
+    },
+    "pineapple": {
+        "calories": 50,
+        "protein": 0.5,
+        "carbs": 13,
+        "fat": 0.1
+    },
+    "banana": {
+        "calories": 89,
+        "protein": 1.1,
+        "carbs": 23,
+        "fat": 0.3
+    },
+    "chocolate sauce": {
+        "calories": 530,
+        "protein": 3,
+        "carbs": 62,
+        "fat": 31
+    },
+    "meat loaf": {
+        "calories": 231,
+        "protein": 18,
+        "carbs": 9,
+        "fat": 14
+    },
+    "burrito": {
+        "calories": 206,
+        "protein": 6,
+        "carbs": 33,
+        "fat": 6
+    },
+    "hot pot": {
+        "calories": 150,
+        "protein": 15,
+        "carbs": 10,
+        "fat": 5
+    },
+    "guacamole": {
+        "calories": 160,
+        "protein": 2,
+        "carbs": 9,
+        "fat": 15
+    },
+    "trifle": {
+        "calories": 170,
+        "protein": 3,
+        "carbs": 26,
+        "fat": 6
+    },
+    "consomme": {
+        "calories": 17,
+        "protein": 3,
+        "carbs": 1,
+        "fat": 0
+    },
+    "plate": {
+        "calories": 0,
+        "protein": 0,
+        "carbs": 0,
+        "fat": 0
+    }
+} 

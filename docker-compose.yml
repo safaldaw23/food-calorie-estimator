@@ -1,0 +1,181 @@
+version: '3.8'
+
+services:
+  # Redis Service for Celery
+  redis:
+    image: redis:7-alpine
+    container_name: food-estimator-redis
+    ports:
+      - "6379:6379"
+    command: redis-server --appendonly yes
+    volumes:
+      - redis_data:/data
+    networks:
+      - food-estimator-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Celery Worker Service
+  celery-worker:
+    build: ./backend
+    container_name: food-estimator-celery-worker
+    environment:
+      - REDIS_URL=redis://redis:6379/0
+      - DATABASE_PATH=/app/shared_data/food_predictions.db
+    volumes:
+      - shared_data:/app/shared_data
+      - upload_data:/app/static/uploads
+    networks:
+      - food-estimator-network
+    depends_on:
+      - redis
+      - backend-1
+      - backend-2
+      - backend-3
+    restart: unless-stopped
+    command: celery -A celery_worker worker --loglevel=info
+    healthcheck:
+      test: ["CMD", "celery", "-A", "celery_worker.celery_app", "inspect", "ping"]
+      interval: 60s
+      timeout: 30s
+      retries: 3
+
+  # Frontend Service
+  frontend:
+    build: ./frontend
+    container_name: food-estimator-frontend
+    ports:
+      - "3000:80"
+    environment:
+      - VITE_API_BASE_URL=http://localhost:9000
+    depends_on:
+      - load-balancer
+    networks:
+      - food-estimator-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Load Balancer Service
+  load-balancer:
+    build:
+      context: .
+      dockerfile: Dockerfile.loadbalancer
+    container_name: food-estimator-load-balancer
+    ports:
+      - "9000:9000"
+    environment:
+      - BACKEND_1_URL=http://backend-1:8000
+      - BACKEND_2_URL=http://backend-2:8001
+      - BACKEND_3_URL=http://backend-3:8002
+    depends_on:
+      - backend-1
+      - backend-2
+      - backend-3
+    networks:
+      - food-estimator-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Backend Service 1
+  backend-1:
+    build: ./backend
+    container_name: food-estimator-backend-1
+    ports:
+      - "8000:8000"
+    environment:
+      - PORT=8000
+      - REDIS_URL=redis://redis:6379/0
+      - DATABASE_PATH=/app/shared_data/food_predictions.db
+      - UPLOAD_FOLDER=/app/static/uploads
+    volumes:
+      - shared_data:/app/shared_data
+      - upload_data:/app/static/uploads
+    networks:
+      - food-estimator-network
+    depends_on:
+      - redis
+    restart: unless-stopped
+    command: python app.py 8000
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Backend Service 2
+  backend-2:
+    build: ./backend
+    container_name: food-estimator-backend-2
+    ports:
+      - "8001:8001"
+    environment:
+      - PORT=8001
+      - REDIS_URL=redis://redis:6379/0
+      - DATABASE_PATH=/app/shared_data/food_predictions.db
+      - UPLOAD_FOLDER=/app/static/uploads
+    volumes:
+      - shared_data:/app/shared_data
+      - upload_data:/app/static/uploads
+    networks:
+      - food-estimator-network
+    depends_on:
+      - redis
+    restart: unless-stopped
+    command: python app.py 8001
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Backend Service 3
+  backend-3:
+    build: ./backend
+    container_name: food-estimator-backend-3
+    ports:
+      - "8002:8002"
+    environment:
+      - PORT=8002
+      - REDIS_URL=redis://redis:6379/0
+      - DATABASE_PATH=/app/shared_data/food_predictions.db
+      - UPLOAD_FOLDER=/app/static/uploads
+    volumes:
+      - shared_data:/app/shared_data
+      - upload_data:/app/static/uploads
+    networks:
+      - food-estimator-network
+    depends_on:
+      - redis
+    restart: unless-stopped
+    command: python app.py 8002
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+# Named volumes for data persistence
+volumes:
+  redis_data:
+  shared_data:
+  upload_data:
+
+# Custom network for container communication
+networks:
+  food-estimator-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16 

@@ -1,0 +1,60 @@
+# Git
+.git
+.gitignore
+README.md
+
+# Node modules
+node_modules
+npm-debug.log*
+
+# Python
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.so
+.pytest_cache
+.coverage
+
+# Environment
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+.venv
+venv
+
+# IDE
+.vscode
+.idea
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Build outputs
+dist
+build
+*.log
+
+# Docker
+Dockerfile*
+docker-compose*
+.dockerignore
+
+# Database files (will be in volumes)
+*.db
+*.sqlite
+
+# Uploads (will be in volumes)
+uploads/
+static/uploads*/
+
+# Development files
+*.sh
+start_*
+stop_* 

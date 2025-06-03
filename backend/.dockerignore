@@ -1,0 +1,45 @@
+# Python
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.so
+.pytest_cache
+.coverage
+
+# Environment
+.env
+.venv
+venv
+
+# Database files (will be in volumes)
+*.db
+*.sqlite
+food_predictions.db
+
+# Uploads (will be in volumes)
+static/uploads-*
+uploads/
+
+# IDE
+.vscode
+.idea
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Git
+.git
+.gitignore
+
+# Docker
+Dockerfile
+.dockerignore
+
+# Development
+*.log
+*.sh 

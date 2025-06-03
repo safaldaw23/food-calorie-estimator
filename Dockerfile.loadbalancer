@@ -1,0 +1,26 @@
+# Load Balancer Dockerfile for Food Calorie Estimator
+FROM python:3.11-slim
+
+# Set working directory
+WORKDIR /app
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install Python dependencies
+RUN pip install flask flask-cors requests
+
+# Copy load balancer code
+COPY load_balancer.py .
+
+# Expose port
+EXPOSE 9000
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
+    CMD curl -f http://localhost:9000/health || exit 1
+
+# Run load balancer
+CMD ["python", "load_balancer.py"] 

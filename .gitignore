@@ -1,0 +1,127 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual Environments
+.venv/
+venv/
+ENV/
+env/
+.env
+
+# Environment Variables
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+yarn.lock
+
+# React/Frontend Build
+frontend/dist/
+frontend/build/
+.eslintcache
+
+# Logs
+logs/
+*.log
+logs/*.log
+
+# Database files
+*.db
+*.sqlite
+*.sqlite3
+
+# Upload directories and files
+static/uploads*/
+backend/static/uploads*/
+backend-*/static/uploads*/
+uploads/
+
+# ML Models (if large, you might want to use Git LFS)
+*.pth
+*.pkl
+*.joblib
+models/
+
+# IDE/Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+
+# Testing
+.coverage
+htmlcov/
+.pytest_cache/
+coverage/
+.nyc_output/
+coverage.xml
+*.cover
+.hypothesis/
+
+# Celery
+celerybeat-schedule
+celerybeat.pid
+
+# Redis dump files
+dump.rdb
+
+# Temporary files
+*.tmp
+*.temp
+temp/
+tmp/
+
+# Process IDs
+*.pid
+
+# Docker volumes
+docker-volumes/
+
+# Jupyter Notebooks
+.ipynb_checkpoints
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Test results
+test_results.json 
