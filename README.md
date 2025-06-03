@@ -51,7 +51,7 @@ cd food-calorie-estimator
 ```
 
 **Access Points:**
-- **Frontend**: http://localhost:5173
+- **Frontend**: http://localhost:3000
 - **Load Balancer**: http://localhost:9000
 - **Backend Servers**: http://localhost:8000-8002
 
@@ -214,9 +214,11 @@ docker-compose exec frontend bash
 
 The application runs in multiple containers:
 
-- **Frontend Container**: Nginx + React build (Port 5173)
+- **Frontend Container**: Nginx + React build (Port 3000)
 - **Backend Containers**: 3 Flask instances (Ports 8000-8002)
 - **Load Balancer Container**: Custom Flask load balancer (Port 9000)
+- **Redis Container**: Caching and task queue (Port 6379)
+- **Celery Worker**: Background task processing
 - **Shared Volumes**: Database and uploads persistence
 
 ## 🔮 Future Enhancements
