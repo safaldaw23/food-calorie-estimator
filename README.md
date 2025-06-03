@@ -36,42 +36,39 @@ Frontend (React + Vite) → Load Balancer (Port 9000) → 3 Backend Servers (800
 
 ## 🚀 Quick Start
 
-### Option 1: Manual Setup (Recommended)
+### Docker Deployment (Recommended)
 
 ```bash
 # Clone the repository
 git clone https://github.com/safaldaw23/food-calorie-estimator.git
 cd food-calorie-estimator
 
-# Install Python dependencies
-pip install -r backend/requirements.txt
+# Start all services with Docker Compose
+./docker-start.sh
 
-# Install Node.js dependencies
-cd frontend && npm install && cd ..
-
-# Start the load balancer
-python load_balancer.py &
-
-# Start backend servers in separate terminals
-cd backend && python app.py  # Will start on port 8000
-
-# Start frontend
-cd frontend && npm run dev
+# Stop all services
+./docker-stop.sh
 ```
 
 **Access Points:**
 - **Frontend**: http://localhost:5173
 - **Load Balancer**: http://localhost:9000
-- **Backend Servers**: http://localhost:8000
+- **Backend Servers**: http://localhost:8000-8002
 
-### Option 2: Docker (Production-Ready)
+### Alternative Docker Commands
 
 ```bash
-# Start with Docker Compose
-./docker-start.sh
+# Start services
+docker-compose up -d
+
+# View logs
+docker-compose logs -f
 
 # Stop services
-./docker-stop.sh
+docker-compose down
+
+# Rebuild and start
+docker-compose up --build -d
 ```
 
 ## 🧪 Testing
@@ -115,20 +112,24 @@ food-calorie-estimator/
 │   │   ├── config/             # API configuration
 │   │   └── App.tsx
 │   ├── package.json
+│   ├── Dockerfile              # Frontend container
 │   └── setupTests.ts
 ├── 📁 backend/                  # Flask backend server
 │   ├── app.py                  # Main Flask application
 │   ├── database.py             # Database models & setup
 │   ├── requirements.txt        # Python dependencies
+│   ├── Dockerfile              # Backend container
 │   └── nutrition_data.json     # Nutrition lookup data
 ├── 📁 tests/                   # Test suites
 │   ├── backend/                # Backend tests (pytest)
 │   └── frontend/               # Frontend tests (Jest)
 ├── 📁 shared/                  # Shared resources
 │   └── food_predictions.db     # SQLite database
-├── 📁 logs/                    # Application logs
 ├── load_balancer.py            # Load balancer service
-├── docker-compose.yml          # Docker configuration
+├── docker-compose.yml          # Multi-container orchestration
+├── Dockerfile.loadbalancer     # Load balancer container
+├── docker-start.sh             # Docker startup script
+├── docker-stop.sh              # Docker shutdown script
 ├── test_runner.py              # Comprehensive test runner
 └── TESTING.md                  # Testing documentation
 ```
@@ -156,6 +157,7 @@ food-calorie-estimator/
 - **Load Balancer** (Custom Flask-based)
 - **Redis** (Optional, for Celery tasks)
 - **Celery** (Optional, for background processing)
+- **Nginx** (Frontend reverse proxy)
 
 ## 🔧 Development
 
@@ -169,51 +171,53 @@ food-calorie-estimator/
 ### Database Management
 
 ```bash
-# Query database directly
-python query_database.py
+# Access database through Docker
+docker-compose exec backend python query_database.py
 
-# Or use SQLite CLI
+# Or connect directly to SQLite
 sqlite3 shared/food_predictions.db
 ```
 
-### Running Multiple Backend Servers
+### Development with Docker
 
 ```bash
-# Terminal 1 - Backend Server 1 (Port 8000)
-cd backend && python app.py
+# Build and start in development mode
+docker-compose -f docker-compose.yml up --build
 
-# Terminal 2 - Backend Server 2 (Port 8001)
-cd backend && PORT=8001 python app.py
+# View specific service logs
+docker-compose logs -f frontend
+docker-compose logs -f backend
+docker-compose logs -f load-balancer
 
-# Terminal 3 - Backend Server 3 (Port 8002)
-cd backend && PORT=8002 python app.py
-
-# Terminal 4 - Load Balancer
-python load_balancer.py
+# Execute commands in running containers
+docker-compose exec backend bash
+docker-compose exec frontend bash
 ```
 
 ### Monitoring
 
-- **Logs**: Check `logs/` directory for service logs
+- **Logs**: `docker-compose logs -f`
 - **Health Checks**: Visit `/health` endpoints
 - **Stats**: Visit `/stats` on load balancer
+- **Container Status**: `docker-compose ps`
 
 ## 📈 Performance & Scalability
 
 - **Load Balancing**: Round-robin across 3 backend servers
+- **Containerization**: Easy horizontal scaling with Docker
 - **Database**: Optimized with indexes and connection pooling  
 - **Caching**: Ready for Redis integration
 - **Background Tasks**: Celery support for async processing
 - **Monitoring**: Health checks and detailed logging
 
-## 🐳 Docker Deployment
+## 🐳 Docker Architecture
 
-Full Docker support with multi-container setup:
+The application runs in multiple containers:
 
-- **Frontend Container**: Nginx + React build
-- **Backend Containers**: 3 Flask instances
-- **Load Balancer Container**: Custom Flask load balancer
-- **Shared Volumes**: Database and uploads
+- **Frontend Container**: Nginx + React build (Port 5173)
+- **Backend Containers**: 3 Flask instances (Ports 8000-8002)
+- **Load Balancer Container**: Custom Flask load balancer (Port 9000)
+- **Shared Volumes**: Database and uploads persistence
 
 ## 🔮 Future Enhancements
 
