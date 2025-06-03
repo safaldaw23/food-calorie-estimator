@@ -36,11 +36,11 @@ Frontend (React + Vite) → Load Balancer (Port 9000) → 3 Backend Servers (800
 
 ## 🚀 Quick Start
 
-### Option 1: Full System (Recommended)
+### Option 1: Manual Setup (Recommended)
 
 ```bash
 # Clone the repository
-git clone <your-repo-url>
+git clone https://github.com/safaldaw23/food-calorie-estimator.git
 cd food-calorie-estimator
 
 # Install Python dependencies
@@ -49,14 +49,20 @@ pip install -r backend/requirements.txt
 # Install Node.js dependencies
 cd frontend && npm install && cd ..
 
-# Start all services
-./start_full_system.sh
+# Start the load balancer
+python load_balancer.py &
+
+# Start backend servers in separate terminals
+cd backend && python app.py  # Will start on port 8000
+
+# Start frontend
+cd frontend && npm run dev
 ```
 
 **Access Points:**
 - **Frontend**: http://localhost:5173
 - **Load Balancer**: http://localhost:9000
-- **Backend Servers**: http://localhost:8000-8002
+- **Backend Servers**: http://localhost:8000
 
 ### Option 2: Docker (Production-Ready)
 
@@ -123,7 +129,6 @@ food-calorie-estimator/
 ├── 📁 logs/                    # Application logs
 ├── load_balancer.py            # Load balancer service
 ├── docker-compose.yml          # Docker configuration
-├── start_full_system.sh        # System startup script
 ├── test_runner.py              # Comprehensive test runner
 └── TESTING.md                  # Testing documentation
 ```
@@ -169,6 +174,22 @@ python query_database.py
 
 # Or use SQLite CLI
 sqlite3 shared/food_predictions.db
+```
+
+### Running Multiple Backend Servers
+
+```bash
+# Terminal 1 - Backend Server 1 (Port 8000)
+cd backend && python app.py
+
+# Terminal 2 - Backend Server 2 (Port 8001)
+cd backend && PORT=8001 python app.py
+
+# Terminal 3 - Backend Server 3 (Port 8002)
+cd backend && PORT=8002 python app.py
+
+# Terminal 4 - Load Balancer
+python load_balancer.py
 ```
 
 ### Monitoring

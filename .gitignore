@@ -124,4 +124,9 @@ docker-volumes/
 dmypy.json
 
 # Test results
-test_results.json 
+test_results.json
+
+# Excluded files
+LOAD_BALANCER_GUIDE.md
+start_full_system.sh
+stop_full_system.sh 
